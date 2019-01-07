@@ -96,6 +96,9 @@ class EdgeConnect():
             for items in train_loader:
                 images, images_gray, edges, masks = self.cuda(*items)
 
+                self.edge_model.train()
+                self.inpaint_model.train()
+
                 # edge model
                 if model == 1:
                     # train
@@ -194,12 +197,14 @@ class EdgeConnect():
 
                 # sample model at checkpoints
                 if self.config.SAMPLE_INTERVAL and iteration % self.config.SAMPLE_INTERVAL == 0:
-                    self.sample()
+                    # with torch.no_grad():
+                        self.sample()
 
                 # evaluate model at checkpoints
                 if self.config.EVAL_INTERVAL and iteration % self.config.EVAL_INTERVAL == 0:
                     print('\nstart eval...\n')
-                    self.eval()
+                    with torch.no_grad():
+                        self.eval()
 
                 # save model at checkpoints
                 if self.config.SAVE_INTERVAL and iteration % self.config.SAVE_INTERVAL == 0:
@@ -289,6 +294,7 @@ class EdgeConnect():
 
             logs = [("it", iteration), ] + logs
             progbar.add(len(images), values=logs)
+
 
     def test(self):
         self.edge_model.eval()
