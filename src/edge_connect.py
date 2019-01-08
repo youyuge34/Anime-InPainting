@@ -90,14 +90,14 @@ class EdgeConnect():
             epoch += 1
             print('\n\nTraining epoch: %d' % epoch)
 
-            self.edge_model.train()
-            self.inpaint_model.train()
+            # ['epoch', 'iter'] will not be auto-averaged during training, others will
             progbar = Progbar(total, width=20, stateful_metrics=['epoch', 'iter'])
+            
             for items in train_loader:
-                images, images_gray, edges, masks = self.cuda(*items)
-
                 self.edge_model.train()
                 self.inpaint_model.train()
+
+                images, images_gray, edges, masks = self.cuda(*items)
 
                 # edge model
                 if model == 1:
@@ -188,8 +188,9 @@ class EdgeConnect():
                     ("iter", iteration),
                 ] + logs
 
-                if iteration % 20 == 0:
-                    progbar.add(len(images), values=logs if self.config.VERBOSE else [x for x in logs if not x[0].startswith('l_')])
+                # terminal prints
+                if self.config.PRINT_INTERVAL and iteration % self.config.PRINT_INTERVAL == 0:
+                    progbar.add(len(images) * int(self.config.PRINT_INTERVAL), values=logs if self.config.VERBOSE else [x for x in logs if not x[0].startswith('l_')])
 
                 # log model at checkpoints
                 if self.config.LOG_INTERVAL and iteration % self.config.LOG_INTERVAL == 0:
@@ -197,7 +198,8 @@ class EdgeConnect():
 
                 # sample model at checkpoints
                 if self.config.SAMPLE_INTERVAL and iteration % self.config.SAMPLE_INTERVAL == 0:
-                    # with torch.no_grad():
+                    print('\nstart sampling...\n')
+                    with torch.no_grad():
                         self.sample()
 
                 # evaluate model at checkpoints
@@ -312,7 +314,7 @@ class EdgeConnect():
         for items in test_loader:
             name = self.test_dataset.load_name(index)
             images, images_gray, edges, masks = self.cuda(*items)
-            print('images size is {}, \n edges size is {}, \n masks size is {}'.format(images.size(), edges.size(), masks.size()))
+            # print('images size is {}, \n edges size is {}, \n masks size is {}'.format(images.size(), edges.size(), masks.size()))
             index += 1
 
             # edge model

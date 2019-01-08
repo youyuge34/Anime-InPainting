@@ -20,6 +20,18 @@ def create_mask(width, height, mask_width, mask_height, x=None, y=None):
     mask[mask_y:mask_y + mask_height, mask_x:mask_x + mask_width] = 1
     return mask
 
+# Get model list for resume, key_phase = 'EdgeModel' or 'InpaintModel', key_model = 'gen' or 'dis'
+def get_model_list(dirname, key_phase, key_model):
+    if os.path.exists(dirname) is False:
+        return None
+    gen_models = [os.path.join(dirname, f) for f in os.listdir(dirname) if
+                  os.path.isfile(os.path.join(dirname, f)) and key_phase in f and key_model in f and ".pth" in f]
+    if gen_models is None:
+        return None
+    gen_models.sort()
+    last_model_name = gen_models[-1]
+    return last_model_name
+
 
 def stitch_images(inputs, *outputs, img_per_row=2):
     gap = 5

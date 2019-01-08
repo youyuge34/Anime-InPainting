@@ -7,6 +7,7 @@ from torch.utils.data import DataLoader
 from .networks import InpaintGenerator, EdgeGenerator, Discriminator
 from .dataset import Dataset
 from .loss import AdversarialLoss, PerceptualLoss, StyleLoss
+from .utils import get_model_list
 
 
 class BaseModel(nn.Module):
@@ -17,20 +18,19 @@ class BaseModel(nn.Module):
         self.config = config
         self.iteration = 0
 
-        self.gen_weights_path = os.path.join(config.PATH, name + '_gen.pth')
-        self.dis_weights_path = os.path.join(config.PATH, name + '_dis.pth')
-
     def load(self):
-        if os.path.exists(self.gen_weights_path):
-            print('Loading %s generator...' % self.name)
-            data = torch.load(self.gen_weights_path)
+        gen_path = get_model_list(self.config.PATH, self.name, 'gen')
+        dis_path = get_model_list(self.config.PATH, self.name, 'dis')
+        if gen_path is not None:
+            print('Loading {} generator weights file: {}...'.format(self.name, gen_path))
+            data = torch.load(gen_path)
             self.generator.load_state_dict(data['generator'])
             self.iteration = data['iteration']
 
         # load discriminator only when training
-        if self.config.MODE == 1 and os.path.exists(self.dis_weights_path):
-            print('Loading %s discriminator...' % self.name)
-            data = torch.load(self.dis_weights_path)
+        if self.config.MODE == 1 and dis_path is not None:
+            print('Loading {} discriminator weights file: {}...'.format(self.name, dis_path))
+            data = torch.load(dis_path)
             self.discriminator.load_state_dict(data['discriminator'])
 
     def save(self):
@@ -38,11 +38,11 @@ class BaseModel(nn.Module):
         torch.save({
             'iteration': self.iteration,
             'generator': self.generator.state_dict()
-        }, os.path.join(self.config.PATH, '{}_{}_gen.pth'.format(self.name, self.iteration)))
+        }, os.path.join(self.config.PATH, '{}_gen_{}.pth'.format(self.name, self.iteration)))
 
         torch.save({
             'discriminator': self.discriminator.state_dict()
-        }, os.path.join(self.config.PATH, '{}_{}_dis.pth'.format(self.name, self.iteration)))
+        }, os.path.join(self.config.PATH, '{}_dis_{}.pth'.format(self.name, self.iteration)))
 
 
 class EdgeModel(BaseModel):

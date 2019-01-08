@@ -53,11 +53,11 @@ def main(mode=None):
     # model test
     elif config.MODE == 2:
         print('\nstart testing...\n')
-        import time
-        start = time.time()
+        # import time
+        # start = time.time()
         with torch.no_grad():
             model.test()
-        print(time.time() - start)
+        # print(time.time() - start)
 
     # eval mode
     else:
