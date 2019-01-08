@@ -102,6 +102,11 @@ def load_config(mode=None):
     if mode == 1:
         config.MODE = 1
         config.MODEL = args.model if args.model is not None else 1
+        
+        if config.SKIP_PHASE2 is None:
+            config.SKIP_PHASE2 = 0
+        if config.MODEL == 2 and config.SKIP_PHASE2 == 1:
+            raise Exception("MODEL is 2, cannot skip phase2! trun config.SKIP_PHASE2 off or just use MODEL 3.")
 
     # test mode
     elif mode == 2:

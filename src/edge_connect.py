@@ -85,6 +85,7 @@ class EdgeConnect():
         model = self.config.MODEL
         max_iteration = int(float((self.config.MAX_ITERS)))
         total = len(self.train_dataset)
+        skip_phase2 = self.config.SKIP_PHASE2
 
         while(keep_training):
             epoch += 1
@@ -92,7 +93,7 @@ class EdgeConnect():
 
             # ['epoch', 'iter'] will not be auto-averaged during training, others will
             progbar = Progbar(total, width=20, stateful_metrics=['epoch', 'iter'])
-            
+
             for items in train_loader:
                 self.edge_model.train()
                 self.inpaint_model.train()
@@ -135,7 +136,7 @@ class EdgeConnect():
                 # inpaint with edge model
                 elif model == 3:
                     # train
-                    if True or np.random.binomial(1, 0.5) > 0:
+                    if skip_phase2 or np.random.binomial(1, 0.5) > 0:
                         outputs = self.edge_model(images_gray, edges, masks)
                         outputs = outputs * masks + edges * (1 - masks)
                     else:
