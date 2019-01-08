@@ -112,3 +112,5 @@ mask/
 
 *.psd
 examples/places3/
+
+venv.bat
