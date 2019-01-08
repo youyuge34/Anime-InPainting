@@ -136,7 +136,7 @@ class EdgeConnect():
                 # inpaint with edge model
                 elif model == 3:
                     # train
-                    if skip_phase2 and np.random.binomial(1, 0.5) > 0:
+                    if not skip_phase2 or np.random.binomial(1, 0.5) > 0:
                         outputs = self.edge_model(images_gray, edges, masks)
                         outputs = outputs * masks + edges * (1 - masks)
                     else:
