@@ -1,21 +1,30 @@
-## AnimeInPaint: An demo application of [Edge-Connect](https://github.com/knazeri/edge-connect) (WIP)
-[ArXiv](https://arxiv.org/abs/1901.00212) | [BibTex](#citation)
+AnimeInPaint: An demo application of based on [Edge-Connect](https://github.com/knazeri/edge-connect) (WIP)
+-----------------------------------------------------------------------------------------------------------
 
 English | [中文版介绍](#jump_zh)     
 
-### Demo show time
-#### Demo results:
+## Demo show time
+#### Demo outputs
+<p align="center">
 <img src="files/demo_shortcut2.jpg" width="450" height="240">
 <img src="files/demo_house.jpg" width="425" height="400">
+</p>
 
 #### Demo using
+<p align="center">
 <img src="files/cut2.gif" width="425" height="425">
+</p>
 
 
-Well trained model validation sample (weights files are provided below):
+Validation samples of Well trained model  (weights files are provided below):
+
+
+<p align="center">
 <img src="files/2069500.png" width="640" height="380">
+</p>
 
-### Introduction:
+Introduction:
+-----
 This is an optimized demo application has a frontend based on opencv, whose backend used [Edge-Connect](https://github.com/knazeri/edge-connect). Make sure you have read their awesome work and license thoroughly.
 Compared with the original work, this project has such improvements:    
 - Add demo application modes
@@ -45,9 +54,12 @@ pip install -r requirements.txt
 
 > continuous...
 
-# <span id="jump_zh">中文版介绍 (WIP)</span>
+<span id="jump_zh">中文版介绍 (WIP)</span>
+-----
 魔改版……
 填完坑再写readme
+
+
 
 
 
