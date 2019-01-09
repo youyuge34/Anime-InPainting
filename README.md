@@ -1,5 +1,5 @@
-AnimeInPaint: An demo application of based on [Edge-Connect](https://github.com/knazeri/edge-connect) (WIP)
------------------------------------------------------------------------------------------------------------
+Anime-InPainting: An demo application of based on [Edge-Connect](https://github.com/knazeri/edge-connect) (WIP)
+---------------------------------------------------------------------------------------------------------------
 
 English | [中文版介绍](#jump_zh)     
 
@@ -25,7 +25,7 @@ Validation samples of Well trained model  (weights files are provided below):
 
 Introduction:
 -----
-This is an optimized demo application has a frontend based on opencv, whose backend used [Edge-Connect](https://github.com/knazeri/edge-connect). Make sure you have read their awesome work and license thoroughly.
+This is an optimized demo application which has a frontend based on opencv, whose backend used [Edge-Connect](https://github.com/knazeri/edge-connect). Make sure you have read their awesome work and license thoroughly.
 Compared with the original work, this project has such improvements:    
 - Add demo application modes
 - Optimize the training phase
@@ -35,7 +35,8 @@ Compared with the original work, this project has such improvements:
 - Add config of print frequency
 - ... ...
 
-
+**You can do the amazing Anime inpainting conveniently here.
+And detailed training tutorial is introduced below.**
 
 ## Prerequisites
 - Python 3
