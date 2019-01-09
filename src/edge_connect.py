@@ -408,14 +408,16 @@ class EdgeConnect():
         print('\nsaving sample ' + name)
         images.save(name)
 
-    def test_img_with_mask(self, img, mask):
+    def test_img_with_mask(self, img, mask, edge_edit=None):
         self.edge_model.eval()
         self.inpaint_model.eval()
 
         model = self.config.MODEL  # 3
         image_gray = rgb2gray(img)
-        edge = canny_edge(image_gray, mask, sigma=self.config.SIGMA, training=False)
-
+        if edge_edit is None:
+            edge = canny_edge(image_gray, mask, sigma=self.config.SIGMA, training=False)
+        else:
+            edge = rgb2gray(edge_edit)
         img = to_tensor(img)
         image_gray = to_tensor(image_gray)
         edge = to_tensor(edge)
@@ -438,8 +440,10 @@ class EdgeConnect():
 
         # inpaint with edge model / joint model
         else:
-            edges = self.edge_model(images_gray, edges, masks).detach()
-            edges = output_align(images, edges)
+            if edge_edit is None:
+                edges = self.edge_model(images_gray, edges, masks).detach()
+                edges = output_align(images, edges)
+            print('edges:', edges.size())
             outputs = self.inpaint_model(images, edges, masks)
             outputs = output_align(images, outputs)
             # print('outputs:', outputs.size())
@@ -450,7 +454,9 @@ class EdgeConnect():
 
         output = self.postprocess(outputs_merged)[0]
         output = output.cpu().numpy().astype(np.uint8).squeeze()
-        return output
+        edges = self.postprocess(edges)[0]
+        edges = edges.cpu().numpy().astype(np.uint8).squeeze()
+        return output, edges
 
     def log(self, logs):
         with open(self.log_file, 'a') as f:

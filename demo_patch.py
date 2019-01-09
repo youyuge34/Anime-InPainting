@@ -24,7 +24,8 @@ Key ']' - To make the brush thickness larger
 Key '0' - Todo
 Key '1' - Todo
 
-Key 'n' - To patch the black part of image
+Key 'n' - To patch the black part of image, just use input image
+Key 'e' - To patch the black part of image, use the input image and edit edge
 Key 'r' - To reset the setup
 Key 's' - To save the output
 Key 'q' - To quit
@@ -60,10 +61,10 @@ value = DRAW_MASK
 THICKNESS = -1  # solid brush circle 实心圆
 
 
-def onmouse(event, x, y, flags, param):
+def onmouse_input(event, x, y, flags, param):
     """
-    mouse callback function, whenever mouse move or click this function is called.
-    只要鼠标在此窗口上移动(点击），此函数就会被回调执行
+    mouse callback function, whenever mouse move or click in input window this function is called.
+    只要鼠标在input窗口上移动(点击），此函数就会被回调执行
     """
     # to change the variable outside of the function
     # 为方法体外的变量赋值，声明global
@@ -84,6 +85,19 @@ def onmouse(event, x, y, flags, param):
         drawing = False
         cv.circle(img, (x, y), radius, value['color'], THICKNESS, lineType=cv.LINE_AA)
         cv.circle(mask, (x, y), radius, value['val'], THICKNESS, lineType=cv.LINE_AA)
+
+
+def onmouse_edge(event, x, y, flags, param):
+    """
+    mouse callback function, whenever mouse move or click in edge window this function is called.
+    只要鼠标在edge窗口上移动(点击），此函数就会被回调执行
+    """
+    # to change the variable outside of the function
+    # 为方法体外的变量赋值，声明global
+    global img, img2, drawing, value, mask, ix, iy, rect_over
+    # print(x, y)
+
+    # draw touchup curves
 
 
 def check_load(args):
@@ -119,7 +133,7 @@ def load_model(config):
     return model
 
 
-def model_process(img, mask):
+def model_process(img, mask, edge=None):
     """
     Patch the image with mask. Key function.
     :param img: Input dimension 3
@@ -129,9 +143,12 @@ def model_process(img, mask):
     # print(img.shape, mask.shape)
     mask[mask > 0] = 255
     img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
-    result = model.test_img_with_mask(img, mask)
+    if edge is None:
+        result, edges = model.test_img_with_mask(img, mask)
+    else:
+        result, edges = model.test_img_with_mask(img, mask, edge_edit=edge)
     result = cv.cvtColor(result, cv.COLOR_RGB2BGR)
-    return result
+    return result, edges
 
 
 if __name__ == '__main__':
@@ -141,6 +158,7 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument('-p', '--path', type=str, help='path of model weights files <.pth>')
+    parser.add_argument('-e', '--edge', action='store_true', help='open the edge edit window')
     args = parser.parse_args()
 
     # check the exist of path and the weights files
@@ -162,12 +180,20 @@ if __name__ == '__main__':
     # input and output windows
     cv.namedWindow('output')
     cv.namedWindow('input')
-    cv.setMouseCallback('input', onmouse)
-    cv.moveWindow('input', img.shape[1] + 10, 90)  # 移动input窗口
+    cv.setMouseCallback('input', onmouse_input)
+    cv.moveWindow('input', img.shape[1] + 20, 90)  # move input window
+
+    if args.edge:
+        edge = np.zeros(img.shape, np.uint8)
+        cv.namedWindow('edge')
+        cv.setMouseCallback('edge', onmouse_edge)
+        cv.moveWindow('edge', img.shape[1] + 40, 90)
 
     while 1:
         cv.imshow('output', output)
         cv.imshow('input', img)
+        if args.edge:
+            cv.imshow('edge', edge)
         k = cv.waitKey(200)
 
         # key bindings
@@ -189,9 +215,16 @@ if __name__ == '__main__':
             img = img2.copy()
             mask = np.zeros(img.shape[:2], dtype=np.uint8)  # mask initialized to PR_BG
             output = np.zeros(img.shape, np.uint8)  # output image to be shown
+            if args.edge:
+                edge = np.zeros(img.shape, np.uint8)
+
         elif k == ord('n'):  # begin to path the image
-            print("\nPatching...")
-            output = model_process(img, mask)
+            print("\nPatching using input image...")
+            output, edge = model_process(img, mask)
+            print("\nPatched!")
+        elif k == ord('e') and args.edge:  # begin to path the image
+            print("\nPatching using input and edge...")
+            output, _ = model_process(img, mask, edge)
             print("\nPatched!")
         elif k == ord('['):
             radius = 1 if radius == 1 else radius - 1
