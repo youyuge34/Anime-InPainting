@@ -1,5 +1,7 @@
-## EdgeConnect: Generative Image Inpainting with Adversarial Edge Learning
+## AnimeInPaint: An application demo of [Generative Image Inpainting with Adversarial Edge Learning](https://github.com/knazeri/edge-connect)
 [ArXiv](https://arxiv.org/abs/1901.00212) | [BibTex](#citation)
+
+English | [中文版介绍](#jump_zh)
 ### Introduction:
 We develop a new approach for image inpainting that does a better job of reproducing filled regions exhibiting fine details inspired by our understanding of how artists work: *lines first, color next*. We propose a two-stage adversarial model EdgeConnect that comprises of an edge generator followed by an image completion network. The edge generator hallucinates edges of the missing region (both regular and irregular) of the image, and the image completion network fills in the missing regions using hallucinated edges as a priori. Detailed description of the system can be found in our [paper](https://arxiv.org/abs/1901.00212).
 <p align='center'>  
@@ -153,6 +155,11 @@ LOG_INTERVAL           | 10    | how many iterations to wait before logging trai
 SAMPLE_INTERVAL        | 1000  | how many iterations to wait before saving sample (0: never)
 SAMPLE_SIZE            | 12    | number of images to sample on each samling interval
 
+# <span id="jump_zh">中文版介绍</span>
+
+
+
+
 ## License
 Licensed under a [Creative Commons Attribution-NonCommercial 4.0 International](https://creativecommons.org/licenses/by-nc/4.0/).
 
@@ -170,3 +177,4 @@ If you use this code for your research, please cite our paper <a href="https://a
   year={2019},
 }
 ```
+
