@@ -154,14 +154,6 @@ if __name__ == '__main__':
     else:
         print('Image selected: ' + image)
 
-    # if not os.path.exists('temp'):
-    #     os.mkdir('temp')
-    #
-    # # relative filename to root directory
-    # filename = os.path.join('temp', os.path.basename(image))
-    # # copy the image because backend model config needs a directory other than sole file
-    # shutil.copyfile(image, filename)
-
     img = cv.imread(image)
     img2 = img.copy()  # a copy of original image
     mask = np.zeros(img.shape[:2], dtype=np.uint8)  # mask initialized to PR_BG
@@ -207,5 +199,12 @@ if __name__ == '__main__':
         elif k == ord(']'):
             radius += 1
             print('Brush thickness is', radius)
-
+        elif k == ord('s'):
+            path = filesavebox('save', 'save the output.', default='patched_' + os.path.basename(image),
+                               filetypes=[['*.jpg', 'jpg'], ['*.png', 'png']])
+            if path:
+                if not path.endswith('.jpg') and not path.endswith('.png'):
+                    path = str(path) + '.png'
+                cv.imwrite(path, output)
+                print('Patched image is saved to', path)
     cv.destroyAllWindows()
