@@ -1,12 +1,13 @@
 import os
-import cv2
 import sys
 import time
 import random
 import numpy as np
 import matplotlib.pyplot as plt
 from PIL import Image
-
+from skimage.feature import canny
+import torchvision.transforms.functional as F
+import torch.nn as nn
 
 def create_dir(dir):
     if not os.path.exists(dir):
@@ -20,13 +21,14 @@ def create_mask(width, height, mask_width, mask_height, x=None, y=None):
     mask[mask_y:mask_y + mask_height, mask_x:mask_x + mask_width] = 1
     return mask
 
+
 # Get model list for resume, key_phase = 'EdgeModel' or 'InpaintModel', key_model = 'gen' or 'dis'
 def get_model_list(dirname, key_phase, key_model):
     if os.path.exists(dirname) is False:
         return None
     gen_models = [os.path.join(dirname, f) for f in os.listdir(dirname) if
                   os.path.isfile(os.path.join(dirname, f)) and key_phase in f and key_model in f and ".pth" in f]
-    if gen_models is None:
+    if len(gen_models) == 0:
         return None
     gen_models.sort()
     last_model_name = gen_models[-1]
@@ -38,7 +40,8 @@ def stitch_images(inputs, *outputs, img_per_row=2):
     columns = len(outputs) + 1
 
     width, height = inputs[0][:, :, 0].shape
-    img = Image.new('RGB', (width * img_per_row * columns + gap * (img_per_row - 1), height * int(len(inputs) / img_per_row)))
+    img = Image.new('RGB',
+                    (width * img_per_row * columns + gap * (img_per_row - 1), height * int(len(inputs) / img_per_row)))
     images = [inputs, *outputs]
 
     for ix in range(len(inputs)):
@@ -64,6 +67,45 @@ def imshow(img, title=''):
 def imsave(img, path):
     im = Image.fromarray(img.cpu().numpy().astype(np.uint8).squeeze())
     im.save(path)
+
+
+def canny_edge(img, mask, sigma=2, training=False):
+    # in test mode images are masked (with masked regions),
+    # using 'mask' parameter prevents canny to detect edges for the masked regions
+    mask = None if training else (1 - mask / 255).astype(np.bool)
+
+    # canny
+    # no edge
+    if sigma == -1:
+        return np.zeros(img.shape).astype(np.float)
+
+    # random sigma
+    if sigma == 0:
+        sigma = random.randint(1, 4)
+
+    return canny(img, sigma=sigma, mask=mask).astype(np.float)
+
+
+def output_align(input, output):
+    """
+    In testing, sometimes output is several pixels less than irregular-size input,
+    here is to fill them
+    """
+    if output.size() != input.size():
+        diff_width = input.size(-1) - output.size(-1)
+        diff_height = input.size(-2) - output.size(-2)
+        m = nn.ReplicationPad2d((0, diff_width, 0, diff_height))
+        output = m(output)
+
+    return output
+
+
+def to_tensor(img):
+    img = Image.fromarray(img)
+    img_t = F.to_tensor(img).float()
+    img_t = img_t.unsqueeze(0)
+    return img_t
+
 
 
 class Progbar(object):

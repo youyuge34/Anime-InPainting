@@ -9,24 +9,25 @@ from src.config import Config
 from src.edge_connect import EdgeConnect
 
 
-def main(mode=None):
+def main(mode=None, config=None):
     r"""starts the model
 
     Args:
         mode (int): 1: train, 2: test, 3: eval, reads from config file if not specified
+                    4: demo_patch,
     """
 
-    config = load_config(mode)
-
+    if mode == 4:
+        config = load_config_demo(mode, config=config)
+    else:
+        config = load_config(mode)
 
     # init cuda environment
     os.environ['CUDA_VISIBLE_DEVICES'] = ','.join(str(e) for e in config.GPU)
     config.DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-
     # set cv2 running threads to 1 (prevents deadlocks with pytorch dataloader)
     cv2.setNumThreads(0)
-
 
     # initialize random seed
     torch.manual_seed(config.SEED)
@@ -34,15 +35,12 @@ def main(mode=None):
     np.random.seed(config.SEED)
     random.seed(config.SEED)
 
-
     # enable the cudnn auto-tuner for hardware.
     torch.backends.cudnn.benchmark = True
-
 
     # build the model and initialize
     model = EdgeConnect(config)
     model.load()
-
 
     # model training
     if config.MODE == 1:
@@ -60,10 +58,16 @@ def main(mode=None):
         # print(time.time() - start)
 
     # eval mode
-    else:
+    elif config.MODE == 3:
         print('\nstart eval...\n')
         with torch.no_grad():
             model.eval()
+
+    elif config.MODE == 4:
+        if config.DEBUG:
+            config.print()
+        print('model prepared.')
+        return model
 
 
 def load_config(mode=None):
@@ -74,8 +78,10 @@ def load_config(mode=None):
     """
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--path', '--checkpoints', type=str, default='./checkpoints', help='model checkpoints path (default: ./checkpoints)')
-    parser.add_argument('--model', type=int, choices=[1, 2, 3, 4], help='1: edge model, 2: inpaint model, 3: edge-inpaint model, 4: joint model')
+    parser.add_argument('--path', '--checkpoints', type=str, default='./checkpoints',
+                        help='model checkpoints path (default: ./checkpoints)')
+    parser.add_argument('--model', type=int, choices=[1, 2, 3, 4],
+                        help='1: edge model, 2: inpaint model, 3: edge-inpaint model, 4: joint model')
 
     # test mode
     if mode == 2:
@@ -102,7 +108,7 @@ def load_config(mode=None):
     if mode == 1:
         config.MODE = 1
         config.MODEL = args.model if args.model is not None else 1
-        
+
         if config.SKIP_PHASE2 is None:
             config.SKIP_PHASE2 = 0
         if config.MODEL == 2 and config.SKIP_PHASE2 == 1:
@@ -130,6 +136,21 @@ def load_config(mode=None):
     elif mode == 3:
         config.MODE = 3
         config.MODEL = args.model if args.model is not None else 3
+
+    return config
+
+
+def load_config_demo(mode, config):
+    r"""loads model config
+
+    Args:
+        mode (int): 4: demo_patch
+    """
+    print('load_config_demo----->')
+    if mode == 4:
+        config.MODE = 4
+        config.MODEL = 3
+        config.INPUT_SIZE = 0
 
     return config
 

@@ -1,4 +1,4 @@
-MODE: 1             # 1: train, 2: test, 3: eval
+MODE: 1             # 1: train, 2: test, 3: eval, 4: demo_patch
 MODEL: 1            # 1: edge model, 2: inpaint model, 3: edge-inpaint model, 4: joint model
 MASK: 3             # 1: random block, 2: half, 3: external, 4: (external, random block), 5: (external, random block, half)
 EDGE: 1             # 1: canny, 2: external

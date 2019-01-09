@@ -109,7 +109,8 @@ datasets/
 
 model/
 mask/
-
+temp/
+.idea/
 *.psd
 examples/places3/
 
