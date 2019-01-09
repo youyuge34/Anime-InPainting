@@ -9,6 +9,7 @@ from skimage.feature import canny
 import torchvision.transforms.functional as F
 import torch.nn as nn
 
+
 def create_dir(dir):
     if not os.path.exists(dir):
         os.makedirs(dir)
@@ -105,7 +106,6 @@ def to_tensor(img):
     img_t = F.to_tensor(img).float()
     img_t = img_t.unsqueeze(0)
     return img_t
-
 
 
 class Progbar(object):

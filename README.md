@@ -4,14 +4,23 @@
 English | [中文版介绍](#jump_zh)     
 
 ### Demo show time
+#### Demo results:
+![img](files/demo_shortcut.jpg)
+![img](files/demo_house.jpg)
+#### Demo using
+![gif](files/cut2.gif)
+
+Well trained model validation sample (weights files are provided below):
+![img](files/2069500.png)
+
 
 
 ### Introduction:
-This is an optimized demo application whose backend used [Edge-Connect](https://github.com/knazeri/edge-connect). Make sure you have read their awesome work and license thoroughly.      
+This is an optimized demo application has a frontend based on opencv, whose backend used [Edge-Connect](https://github.com/knazeri/edge-connect). Make sure you have read their awesome work and license thoroughly.
 Compared with the original work, this project has such improvements:    
 - Add demo application modes
 - Optimize the training phase
-  - Auto-load latest weights files
+  - Auto-save and auto-load latest weights files
   - Add a fast training phase combined with origin phase 2 and 3
 - bugs fixed (most of them are merged into the original work)
 - Add config of print frequency
@@ -25,7 +34,7 @@ Compared with the original work, this project has such improvements:
 - NVIDIA GPU + CUDA cuDNN
 
 ## Installation
-- Clone this repo:
+- Clone this repo
 - Install PyTorch and dependencies from http://pytorch.org
 - Install python requirements:
 ```bash
@@ -34,8 +43,11 @@ pip install -r requirements.txt
 
 ## Datasets
 
-# <span id="jump_zh">中文版介绍</span>
+> continuous...
 
+# <span id="jump_zh">中文版介绍 (WIP)</span>
+魔改版……
+填完坑再写readme
 
 
 
