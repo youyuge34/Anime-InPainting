@@ -5,15 +5,15 @@ English | [中文版介绍](#jump_zh)
 
 ### Demo show time
 #### Demo results:
-![img](files/demo_shortcut.jpg)
-![img](files/demo_house.jpg)
+<img src="files/demo_shortcut2.jpg" width="450" height="240">
+<img src="files/demo_house.jpg" width="425" height="400">
+
 #### Demo using
-![gif](files/cut2.gif)
+<img src="files/cut2.gif" width="425" height="425">
+
 
 Well trained model validation sample (weights files are provided below):
-![img](files/2069500.png)
-
-
+<img src="files/2069500.png" width="640" height="380">
 
 ### Introduction:
 This is an optimized demo application has a frontend based on opencv, whose backend used [Edge-Connect](https://github.com/knazeri/edge-connect). Make sure you have read their awesome work and license thoroughly.
