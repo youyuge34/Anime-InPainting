@@ -17,7 +17,7 @@ English | [中文版介绍](#jump_zh)
 
 #### Demo using input and edge to fine-tune
 <p align="center">
-<img src="files/cut3.gif" width="924" height="488">
+<img src="files/cut3.gif" width="608" height="162">
 </p>
 
 Validation samples of Well trained model  (weights files are provided below):
