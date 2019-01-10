@@ -1,5 +1,17 @@
 Anime-InPainting: An demo application of based on [Edge-Connect](https://github.com/knazeri/edge-connect) (WIP)
 ---------------------------------------------------------------------------------------------------------------
+<p align="left">
+		<img src="https://img.shields.io/badge/version-0.2-brightgreen.svg?style=flat-square"
+			 alt="Version">
+		<img src="https://img.shields.io/badge/status-WIP-orange.svg?style=flat-square"
+			 alt="Status">
+		<img src="https://img.shields.io/badge/platform-win | linux-orange.svg?style=flat-square"
+			 alt="Platform">
+		<img src="https://img.shields.io/badge/PyTorch version-1.0-blue.svg?style=flat-square"
+			 alt="PyTorch">
+		<img src="https://img.shields.io/badge/License-CC BY-NC 4.0-green.svg?style=flat-square"
+			 alt="License">
+</p>
 
 English | [中文版介绍](#jump_zh)     
 
@@ -104,6 +116,7 @@ Key `s` | To save the output
 Key `q` | To quit
 
 ## Training manual
+Click here --> [Training manual by yourself](training_manual.md)
 
 
 > continuous...
@@ -183,8 +196,7 @@ python demo_patch.py -h
 
 
 ## 训练指南
-
-> continuous...
+训练指南 --> [阅读](training_manual.md)
 
 
 ## License
