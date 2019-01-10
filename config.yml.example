@@ -4,6 +4,7 @@ MASK: 3             # 1: random block, 2: half, 3: external, 4: (external, rando
 EDGE: 1             # 1: canny, 2: external
 NMS: 1              # 0: no non-max-suppression, 1: applies non-max-suppression on the external edges by multiplying by Canny
 SEED: 10            # random seed
+DEVICE: 1           # 0: CPU, 1: GPU
 GPU: [0]            # list of gpu ids
 DEBUG: 0            # turns on debugging mode
 VERBOSE: 0          # turns on verbose mode in the output console

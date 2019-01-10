@@ -10,14 +10,17 @@ English | [中文版介绍](#jump_zh)
 <img src="files/demo_house.jpg" width="425" height="400">
 </p>
 
-#### Demo using
+#### Demo using sole input
 <p align="center">
 <img src="files/cut2.gif" width="425" height="425">
 </p>
 
+#### Demo using input and edge to fine-tune
+<p align="center">
+<img src="files/cut3.gif" width="924" height="488">
+</p>
 
 Validation samples of Well trained model  (weights files are provided below):
-
 
 <p align="center">
 <img src="files/2069500.png" width="640" height="380">
@@ -32,10 +35,13 @@ Compared with the original work, this project has such improvements:
   - Auto-save and auto-load latest weights files
   - Add a fast training phase combined with origin phase 2 and 3
 - bugs fixed (most of them are merged into the original work)
-- Add config of print frequency
+- Add configs in `config.yml`
+  - PRINT_FREQUENCY
+  - DEVICE : cpu or gpu
 - ... ...
 
 **You can do the amazing Anime inpainting conveniently here.
+
 And detailed training tutorial is introduced below.**
 
 ## Prerequisites

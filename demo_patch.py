@@ -7,16 +7,21 @@ Interactive Image Patching Demo using Edge-Connect algorithm.
 
 USAGE:
     python demo_patch.py --path <your weights directory path>
+                         --edge (optional to open edge window)
 
 
 README FIRST:
     Two windows will show up, one for input and one for output.
+    if `--edge` arg is input, another edge window will show up.
     [Important] Switch your typewriting into ENG first.
 
     At first, in input window, draw black in the missing part using
-mouse left button. Then press 'n' to path the image (once or a few times)
+mouse left button. Then press 'n' to patch the image (once or a few times)
 For any finer touch-ups, you can press any of the keys below and draw lines on
 the areas you want. Then again press 'n' for updating the output.
+    In input window, left mouse is to draw the black mask which means the defect.
+    In edge window, left mouse is to draw the edge while right mouse is to erase the edges.
+    Press '[' and ']' to resize the brush thickness, as in PhotoShop.
     Finally, press 's' to save the output.
 
 Key '[' - To make the brush thickness smaller
@@ -57,6 +62,8 @@ DRAW_MASK = {'color': BLACK, 'val': 255}
 
 radius = 3  # brush radius
 drawing = False
+drawing_edge_l = False
+drawing_edge_r = False
 value = DRAW_MASK
 THICKNESS = -1  # solid brush circle 实心圆
 
@@ -94,10 +101,34 @@ def onmouse_edge(event, x, y, flags, param):
     """
     # to change the variable outside of the function
     # 为方法体外的变量赋值，声明global
-    global img, img2, drawing, value, mask, ix, iy, rect_over
+    global img, img2, drawing_edge_l, drawing_edge_r, value, mask, ix, iy, edge
     # print(x, y)
 
     # draw touchup curves
+    if event == cv.EVENT_LBUTTONDOWN:
+        drawing_edge_l = True
+        # cv.circle(edge, (x, y), 1, WHITE, THICKNESS, lineType=cv.LINE_AA)
+        edge[y, x] = 255
+
+    elif drawing_edge_l is True and event == cv.EVENT_MOUSEMOVE:
+        # cv.circle(edge, (x, y), 1, WHITE, THICKNESS, lineType=4)
+        edge[y, x] = 255
+
+    elif drawing_edge_l is True and event == cv.EVENT_LBUTTONUP:
+        drawing_edge_l = False
+        # cv.circle(edge, (x, y), 1, WHITE, THICKNESS, lineType=cv.LINE_AA)
+        edge[y, x] = 255
+
+    elif event == cv.EVENT_RBUTTONDOWN:
+        drawing_edge_r = True
+        cv.circle(edge, (x, y), radius, BLACK, THICKNESS, lineType=cv.LINE_AA)
+
+    elif drawing_edge_r is True and event == cv.EVENT_MOUSEMOVE:
+        cv.circle(edge, (x, y), radius, BLACK, THICKNESS, lineType=cv.LINE_AA)
+
+    elif drawing_edge_r is True and event == cv.EVENT_RBUTTONUP:
+        drawing_edge_r = False
+        cv.circle(edge, (x, y), radius, BLACK, THICKNESS, lineType=cv.LINE_AA)
 
 
 def check_load(args):
@@ -167,12 +198,17 @@ if __name__ == '__main__':
 
     # image: absolute image path
     image = fileopenbox(msg='Select a image', title='Select', filetypes=[['*.png', '*.jpg', '*.jpeg', 'Image Files']])
-    if not image:
+    if image is None:
         print('\nPlease select a image.')
+        exit()
     else:
         print('Image selected: ' + image)
 
     img = cv.imread(image)
+
+    # resize the photo if it is too small
+    if max(img.shape[0], img.shape[1]) < 256:
+        img = cv.resize(img, dsize=(0, 0), fx=1.5, fy=1.5, interpolation=cv.INTER_CUBIC)
     img2 = img.copy()  # a copy of original image
     mask = np.zeros(img.shape[:2], dtype=np.uint8)  # mask initialized to PR_BG
     output = np.zeros(img.shape, np.uint8)  # output image to be shown
@@ -217,6 +253,8 @@ if __name__ == '__main__':
             output = np.zeros(img.shape, np.uint8)  # output image to be shown
             if args.edge:
                 edge = np.zeros(img.shape, np.uint8)
+                drawing_edge_r = False
+                drawing_edge_l = False
 
         elif k == ord('n'):  # begin to path the image
             print("\nPatching using input image...")
