@@ -4,26 +4,15 @@ Anime-InPainting: An demo application of based on [Edge-Connect](https://github.
 English | [中文版介绍](#jump_zh)     
 
 ## Demo show time
-#### Demo outputs
+#### Outputs
 <p align="center">
-<img src="files/demo_shortcut2.jpg" width="450" height="240">
-<img src="files/demo_house.jpg" width="425" height="400">
+<img src="files/show1.jpg" width="720" height="400">
 </p>
 
-#### Demo using sole input
+#### Demo
 <p align="center">
 <img src="files/cut2.gif" width="425" height="425">
-</p>
-
-#### Demo using input and edge to fine-tune
-<p align="center">
-<img src="files/cut3.gif" width="608" height="324">
-</p>
-
-Validation samples of Well trained model  (weights files are provided below):
-
-<p align="center">
-<img src="files/2069500.png" width="640" height="380">
+<img src="files/cut3.gif" width="406" height="222">
 </p>
 
 Introduction:
@@ -35,14 +24,14 @@ Compared with the original work, this project has such improvements:
   - Auto-save and auto-load latest weights files
   - Add a fast training phase combined with origin phase 2 and 3
 - bugs fixed (most of them are merged into the original work)
+- Add utility files
 - Add configs in `config.yml`
   - PRINT_FREQUENCY
   - DEVICE : cpu or gpu
 - ... ...
 
-**You can do the amazing Anime inpainting conveniently here.
-
-And detailed training tutorial is introduced below.**
+**You can do the amazing Anime inpainting conveniently here.**
+**And detailed training tutorial is introduced below.**
 
 ## Prerequisites
 - Python 3
