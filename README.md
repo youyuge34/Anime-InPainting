@@ -1,9 +1,9 @@
-Anime-InPainting: An application Tool based on [Edge-Connect](https://github.com/knazeri/edge-connect) (WIP)
-------------------------------------------------------------------------------------------------------------
+Anime-InPainting: An application Tool based on [Edge-Connect](https://github.com/knazeri/edge-connect)
+------------------------------------------------------------------------------------------------------
 <p align="left">
 		<img src="https://img.shields.io/badge/version-0.2-brightgreen.svg?style=flat-square"
 			 alt="Version">
-		<img src="https://img.shields.io/badge/status-WIP-orange.svg?style=flat-square"
+		<img src="https://img.shields.io/badge/status-Release-gold.svg?style=flat-square"
 			 alt="Status">
 		<img src="https://img.shields.io/badge/platform-win | linux-lightgrey.svg?style=flat-square"
 			 alt="Platform">
@@ -94,7 +94,7 @@ from the original work [Edge-Connect](https://github.com/knazeri/edge-connect). 
 Only one thing to be careful: The `config.yml` in this project has some additional options than the config from the [Edge-Connect](https://github.com/knazeri/edge-connect).
 
 
-## tool operation
+## Tool operation
 For detailed manual, refer to your `terminal` prints or the `__doc__` in `tool_patch.py`.
 
 Below is the simplified tool operation manual:
@@ -119,9 +119,8 @@ Key `q` | To quit
 Click here --> [Training manual by yourself](training_manual.md)
 
 
-> continuous...
 
-<span id="jump_zh">中文版介绍🇨🇳 (WIP)</span>
+<span id="jump_zh">中文版介绍🇨🇳 </span>
 -----
 
 ## 简介
@@ -178,7 +177,7 @@ python tool_patch.py -h
 
 ## Tool操作指南
 详细内容请翻看控制台的打印内容，或查看`tool_patch.py`里的`__doc__`      
-简略版Tool使用指南：
+简略版tool使用指南：
 
 按键 | 说明
 -----|------
@@ -196,7 +195,7 @@ python tool_patch.py -h
 
 
 ## 训练指南
-训练指南 --> [阅读](training_manual.md)
+训练指南 --> [阅读](training_manual.md#jump_zh)
 
 
 ## License
