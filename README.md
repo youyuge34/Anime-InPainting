@@ -17,8 +17,9 @@ English | [中文版介绍](#jump_zh)
 
 Introduction:
 -----
-This is an optimized demo application which has a frontend based on opencv, whose backend used [Edge-Connect](https://github.com/knazeri/edge-connect). Make sure you have read their awesome work and license thoroughly.
-Compared with the original work, this project has such improvements:    
+This is an optimized demo application which has a frontend based on `Opencv`, whose backend used [Edge-Connect](https://github.com/knazeri/edge-connect).
+Make sure you have read their awesome work and license thoroughly.
+Compared with the original work, this project has such <span id="improve">improvements</span> :
 - Add demo application modes
 - Optimize the training phase
   - Auto-save and auto-load latest weights files
@@ -31,14 +32,15 @@ Compared with the original work, this project has such improvements:
 - ... ...
 
 **You can do the amazing Anime inpainting conveniently here.**
+
 **And detailed training tutorial is introduced below.**
 
-## Prerequisites
+## <span id='pre'>Prerequisites</span>
 - Python 3
 - PyTorch `1.0` (`0.4` is not supported)
 - NVIDIA GPU + CUDA cuDNN
 
-## Installation
+## <span id='ins'>Installation</span>
 - Clone this repo
 - Install PyTorch and dependencies from http://pytorch.org
 - Install python requirements:
@@ -46,17 +48,100 @@ Compared with the original work, this project has such improvements:
 pip install -r requirements.txt
 ```
 
-## Datasets
+## Run the demo
+I want to run the demo! Calm down and follow such step:
+**Info: The following weights files are trained on anime face dataset which performs not good on a large whole anime character.**
+1. Download the well trained model weights file --> [Google Drive](https://drive.google.com/file/d/12I-K7GQEXEL_rEOVJnRv7ecVHyuZE-1-/view?usp=sharing) | [Baidu](https://pan.baidu.com/s/1WkeRtYViGGGw4fUqPo3nsg)
+2. Unzip the `.7z` and put it under your root directory
+So make sure your path now is: `./model/getchu/<xxxxx.pth>`
+3. Complete the above [Prerequisites](#pre) and [Installation](#ins)
+4. (Optional) Check and edit the `./model/getchu/config.yml` config file as you wish
+5. Run the cooool demo:
+
+#### Default demo:
+
+```bash
+python demo_patch.py --path model\getchu\
+```
+
+#### Demo with edge window:
+
+```bash
+python demo_patch.py --edge -path model\getchu\
+```
+
+#### Args help
+```bash
+python demo_patch.py -h
+```
+
+> PS. You can run any well trained model, not only above one. You can download more model weights files
+from the original work [Edge-Connect](https://github.com/knazeri/edge-connect). Then you can run the demo as above.
+Only one thing to be careful: The `config.yml` in this project has some additional options than the config from the [Edge-Connect](https://github.com/knazeri/edge-connect).
+
+
+## Training manual
+
 
 > continuous...
 
 <span id="jump_zh">中文版介绍 (WIP)</span>
 -----
-魔改版……
-填完坑再写readme
+
+## 简介
+Demo效果看上面👆 Bilibili视频教程：TO DO
+
+这是图像修补方向最新研究成果[Edge-Connect](https://github.com/knazeri/edge-connect)的~~阿姆斯特朗氮气加速魔改~~（优化）版。
+用`Opencv`写了个前端部分，后端是[Edge-Connect](https://github.com/knazeri/edge-connect)，方便当作工具使用。
+此工具可以用来自动图像修补，去马赛克……同样优化了模型训练的过程。具体优化内容请看[英文版](#improve)。
+
+## 基础环境
+- Python 3
+- PyTorch `1.0` (`0.4` is not supported)
+- NVIDIA GPU + CUDA cuDNN
+
+## 第三方库安装
+- Clone this repo
+- Install PyTorch and dependencies from http://pytorch.org
+- Install python requirements:
+```bash
+pip install -r requirements.txt
+```
+
+## 运行Demo
+教练！我有个大胆的想法……别急，一步步来：
+**注意：以下模型是在动漫头像数据集上训练的，所以对动漫全身大图修补效果一般，想自己再训练的参考下面的训练指南**
+1. 下训练好的模型文件 --> [Google Drive](https://drive.google.com/file/d/12I-K7GQEXEL_rEOVJnRv7ecVHyuZE-1-/view?usp=sharing) | [Baidu](https://pan.baidu.com/s/1WkeRtYViGGGw4fUqPo3nsg)
+2. 解压 `.7z` 放到你的根目录下
+确保你的目录现在是这样: `./model/getchu/<xxxxx.pth>`
+3. 完成上面的基础环境和第三方库安装步骤
+4. (可选) 检查并编辑 `./model/getchu/config.yml` 配置文件
+5. 使用以下命令运行：
+
+#### 默认Demo:
+
+```bash
+python demo_patch.py --path model\getchu\
+```
+
+#### 带Edge编辑窗口的Demo:
+
+```bash
+python demo_patch.py --edge -path model\getchu\
+```
+
+#### 命令行参数帮助
+```bash
+python demo_patch.py -h
+```
+
+> PS. 你也能用Demo跑别的任何模型，在这里下载原作更多模型[Edge-Connect](https://github.com/knazeri/edge-connect).
+文件组织方式参考上面，其余运行命令都一样。唯一注意的是这个项目的 `config.yml` 比原作的多了几个选项，报错了的话注意修改。
 
 
+## 训练指南
 
+> continuous...
 
 
 ## License
