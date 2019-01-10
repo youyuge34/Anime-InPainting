@@ -50,9 +50,11 @@ pip install -r requirements.txt
 
 ## Run the demo
 I want to run the demo! Calm down and follow such step:
+
+
 **Info: The following weights files are trained on anime face dataset which performs not good on a large whole anime character.**
 1. Download the well trained model weights file --> [Google Drive](https://drive.google.com/file/d/12I-K7GQEXEL_rEOVJnRv7ecVHyuZE-1-/view?usp=sharing) | [Baidu](https://pan.baidu.com/s/1WkeRtYViGGGw4fUqPo3nsg)
-2. Unzip the `.7z` and put it under your root directory
+2. Unzip the `.7z` and put it under your root directory.
 So make sure your path now is: `./model/getchu/<xxxxx.pth>`
 3. Complete the above [Prerequisites](#pre) and [Installation](#ins)
 4. (Optional) Check and edit the `./model/getchu/config.yml` config file as you wish
@@ -67,7 +69,7 @@ python demo_patch.py --path model/getchu/
 #### Demo with edge window:
 
 ```bash
-python demo_patch.py --edge -path model/getchu/
+python demo_patch.py --edge --path model/getchu/
 ```
 
 #### Args help
@@ -81,7 +83,25 @@ Only one thing to be careful: The `config.yml` in this project has some addition
 
 
 ## Demo operation
-Refer to your `terminal` prints or refer to the `__doc__` in `demo_patch.py`.
+For detailed manual, refer to your `terminal` prints or the `__doc__` in `demo_patch.py`.
+
+Below is the simplified demo operation manual:
+
+
+
+Key | description
+-----|-----
+Mouse `Left` | To draw out the defective area in window `input` and to draw the edge in window `edge`
+Mouse `Right` | To erase edge in window `edge`
+Key `[` | To make the brush thickness smaller
+Key `]` | To make the brush thickness larger
+Key `0` | Todo
+Key `1` | Todo
+Key `n` | To patch the black part of image, just use input image
+Key `e` | To patch the black part of image, use the input image and edit edge (only work under edge window opened)
+Key `r` | To reset the setup
+Key `s` | To save the output
+Key `q` | To quit
 
 ## Training manual
 
@@ -96,26 +116,28 @@ Demo效果看上面👆 Bilibili视频教程：TO DO
 
 这是图像修补方向最新研究成果[Edge-Connect](https://github.com/knazeri/edge-connect)的~~阿姆斯特朗氮气加速魔改~~（优化）版。
 用`Opencv`写了个前端部分，后端是[Edge-Connect](https://github.com/knazeri/edge-connect)，方便当作工具使用。
-此工具可以用来自动图像修补，去马赛克……同样优化了模型训练的过程。具体优化内容请看[英文版](#improve)。
+此工具可以用来自动图像修补，去马赛克……同样优化了模型训练的过程。具体优化内容请看[英文版Improvements](#improve)。
 
 ## 基础环境
 - Python 3
-- PyTorch `1.0` (`0.4` is not supported)
-- NVIDIA GPU + CUDA cuDNN
+- PyTorch `1.0` (`0.4` 会报错)
+- NVIDIA GPU + CUDA cuDNN （当前版本已可选cpu，修改`config.yml`中的`DEVICE`）
 
 ## 第三方库安装
 - Clone this repo
-- Install PyTorch and dependencies from http://pytorch.org
-- Install python requirements:
+- 安装PyTorch和torchvision --> http://pytorch.org
+- 安装 python requirements:
 ```bash
 pip install -r requirements.txt
 ```
 
 ## 运行Demo
 教练！我有个大胆的想法🈲……别急，一步步来：
+
+
 **注意：以下模型是在动漫头像数据集上训练的，所以对动漫全身大图修补效果一般，想自己再训练的参考下面的训练指南**
 1. 下训练好的模型文件 --> [Google Drive](https://drive.google.com/file/d/12I-K7GQEXEL_rEOVJnRv7ecVHyuZE-1-/view?usp=sharing) | [Baidu](https://pan.baidu.com/s/1WkeRtYViGGGw4fUqPo3nsg)
-2. 解压 `.7z` 放到你的根目录下
+2. 解压 `.7z` 放到你的根目录下.
 确保你的目录现在是这样: `./model/getchu/<xxxxx.pth>`
 3. 完成上面的基础环境和第三方库安装步骤
 4. (可选) 检查并编辑 `./model/getchu/config.yml` 配置文件
@@ -130,7 +152,7 @@ python demo_patch.py --path model/getchu/
 #### 带Edge编辑窗口的Demo:
 
 ```bash
-python demo_patch.py --edge -path model/getchu/
+python demo_patch.py --edge --path model/getchu/
 ```
 
 #### 命令行参数帮助
@@ -143,10 +165,12 @@ python demo_patch.py -h
 
 ## Demo操作指南
 详细内容请翻看控制台的打印内容，或查看`demo_patch.py`里的`__doc__`      
-简略版Demo使用：
+简略版Demo使用指南：
 
 按键 | 说明
 -----|------
+鼠标左键 | Input窗口：画出瑕疵区域的遮盖，Edge窗口：手动画边缘
+鼠标右键 | Edge窗口：橡皮擦
 按键 `[` | 笔刷变细 （控制台打印粗细大小）
 按键 `]` | 笔刷变粗
 按键 `0` | Todo
