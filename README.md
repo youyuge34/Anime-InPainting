@@ -3,7 +3,7 @@ Anime-InPainting: An demo application of based on [Edge-Connect](https://github.
 
 English | [中文版介绍](#jump_zh)     
 
-## Demo show time
+## Demo show time 🏳️‍🌈
 #### Outputs
 <p align="center">
 <img src="files/show1.jpg" width="720" height="400">
@@ -61,13 +61,13 @@ So make sure your path now is: `./model/getchu/<xxxxx.pth>`
 #### Default demo:
 
 ```bash
-python demo_patch.py --path model\getchu\
+python demo_patch.py --path model/getchu/
 ```
 
 #### Demo with edge window:
 
 ```bash
-python demo_patch.py --edge -path model\getchu\
+python demo_patch.py --edge -path model/getchu/
 ```
 
 #### Args help
@@ -80,12 +80,15 @@ from the original work [Edge-Connect](https://github.com/knazeri/edge-connect). 
 Only one thing to be careful: The `config.yml` in this project has some additional options than the config from the [Edge-Connect](https://github.com/knazeri/edge-connect).
 
 
+## Demo operation
+Refer to your `terminal` prints or refer to the `__doc__` in `demo_patch.py`.
+
 ## Training manual
 
 
 > continuous...
 
-<span id="jump_zh">中文版介绍 (WIP)</span>
+<span id="jump_zh">中文版介绍🇨🇳 (WIP)</span>
 -----
 
 ## 简介
@@ -109,7 +112,7 @@ pip install -r requirements.txt
 ```
 
 ## 运行Demo
-教练！我有个大胆的想法……别急，一步步来：
+教练！我有个大胆的想法🈲……别急，一步步来：
 **注意：以下模型是在动漫头像数据集上训练的，所以对动漫全身大图修补效果一般，想自己再训练的参考下面的训练指南**
 1. 下训练好的模型文件 --> [Google Drive](https://drive.google.com/file/d/12I-K7GQEXEL_rEOVJnRv7ecVHyuZE-1-/view?usp=sharing) | [Baidu](https://pan.baidu.com/s/1WkeRtYViGGGw4fUqPo3nsg)
 2. 解压 `.7z` 放到你的根目录下
@@ -121,13 +124,13 @@ pip install -r requirements.txt
 #### 默认Demo:
 
 ```bash
-python demo_patch.py --path model\getchu\
+python demo_patch.py --path model/getchu/
 ```
 
 #### 带Edge编辑窗口的Demo:
 
 ```bash
-python demo_patch.py --edge -path model\getchu\
+python demo_patch.py --edge -path model/getchu/
 ```
 
 #### 命令行参数帮助
@@ -137,6 +140,22 @@ python demo_patch.py -h
 
 > PS. 你也能用Demo跑别的任何模型，在这里下载原作更多模型[Edge-Connect](https://github.com/knazeri/edge-connect).
 文件组织方式参考上面，其余运行命令都一样。唯一注意的是这个项目的 `config.yml` 比原作的多了几个选项，报错了的话注意修改。
+
+## Demo操作指南
+详细内容请翻看控制台的打印内容，或查看`demo_patch.py`里的`__doc__`      
+简略版Demo使用：
+
+按键 | 说明
+-----|------
+按键 `[` | 笔刷变细 （控制台打印粗细大小）
+按键 `]` | 笔刷变粗
+按键 `0` | Todo
+按键 `1` | Todo
+按键 `n` | 修补黑色涂抹区域，只使用一张输入图片
+按键 `e` | 修补黑色涂抹区域，使用输入图片和边缘图片（仅当edge窗口启动时有效）
+按键 `r` | 全部重置
+按键 `s` | 保存输出图片
+按键 `q` | 退出
 
 
 ## 训练指南
