@@ -1,27 +1,27 @@
-Anime-InPainting: An demo application of based on [Edge-Connect](https://github.com/knazeri/edge-connect) (WIP)
----------------------------------------------------------------------------------------------------------------
+Anime-InPainting: An application Tool based on [Edge-Connect](https://github.com/knazeri/edge-connect) (WIP)
+------------------------------------------------------------------------------------------------------------
 <p align="left">
 		<img src="https://img.shields.io/badge/version-0.2-brightgreen.svg?style=flat-square"
 			 alt="Version">
 		<img src="https://img.shields.io/badge/status-WIP-orange.svg?style=flat-square"
 			 alt="Status">
-		<img src="https://img.shields.io/badge/platform-win | linux-orange.svg?style=flat-square"
+		<img src="https://img.shields.io/badge/platform-win | linux-lightgrey.svg?style=flat-square"
 			 alt="Platform">
 		<img src="https://img.shields.io/badge/PyTorch version-1.0-blue.svg?style=flat-square"
 			 alt="PyTorch">
-		<img src="https://img.shields.io/badge/License-CC BY-NC 4.0-green.svg?style=flat-square"
+		<img src="https://img.shields.io/badge/License-CC BY·NC 4.0-green.svg?style=flat-square"
 			 alt="License">
 </p>
 
 English | [中文版介绍](#jump_zh)     
 
-## Demo show time 🏳️‍🌈
+## Tool show time 🏳️‍🌈
 #### Outputs
 <p align="center">
 <img src="files/show1.jpg" width="720" height="400">
 </p>
 
-#### Demo
+#### Tool operation
 <p align="center">
 <img src="files/cut2.gif" width="425" height="425">
 <img src="files/cut3.gif" width="406" height="222">
@@ -29,10 +29,10 @@ English | [中文版介绍](#jump_zh)
 
 Introduction:
 -----
-This is an optimized demo application which has a frontend based on `Opencv`, whose backend used [Edge-Connect](https://github.com/knazeri/edge-connect).
+This is an optimized application tool which has a frontend based on `Opencv`, whose backend used [Edge-Connect](https://github.com/knazeri/edge-connect).
 Make sure you have read their awesome work and license thoroughly.
 Compared with the original work, this project has such <span id="improve">improvements</span> :
-- Add demo application modes
+- Add tool application modes
 - Optimize the training phase
   - Auto-save and auto-load latest weights files
   - Add a fast training phase combined with origin phase 2 and 3
@@ -60,8 +60,8 @@ Compared with the original work, this project has such <span id="improve">improv
 pip install -r requirements.txt
 ```
 
-## Run the demo
-I want to run the demo! Calm down and follow such step:
+## Run the Tool
+I want to run the tool! Calm down and follow such step:
 
 
 **Info: The following weights files are trained on anime face dataset which performs not good on a large whole anime character.**
@@ -70,34 +70,34 @@ I want to run the demo! Calm down and follow such step:
 So make sure your path now is: `./model/getchu/<xxxxx.pth>`
 3. Complete the above [Prerequisites](#pre) and [Installation](#ins)
 4. (Optional) Check and edit the `./model/getchu/config.yml` config file as you wish
-5. Run the cooool demo:
+5. Run the cooool tool:
 
-#### Default demo:
+#### Default Tool:
 
 ```bash
-python demo_patch.py --path model/getchu/
+python tool_patch.py --path model/getchu/
 ```
 
-#### Demo with edge window:
+#### Tool with edge window:
 
 ```bash
-python demo_patch.py --edge --path model/getchu/
+python tool_patch.py --edge --path model/getchu/
 ```
 
 #### Args help
 ```bash
-python demo_patch.py -h
+python tool_patch.py -h
 ```
 
 > PS. You can run any well trained model, not only above one. You can download more model weights files
-from the original work [Edge-Connect](https://github.com/knazeri/edge-connect). Then you can run the demo as above.
+from the original work [Edge-Connect](https://github.com/knazeri/edge-connect). Then you can run the Tool as above.
 Only one thing to be careful: The `config.yml` in this project has some additional options than the config from the [Edge-Connect](https://github.com/knazeri/edge-connect).
 
 
-## Demo operation
-For detailed manual, refer to your `terminal` prints or the `__doc__` in `demo_patch.py`.
+## tool operation
+For detailed manual, refer to your `terminal` prints or the `__doc__` in `tool_patch.py`.
 
-Below is the simplified demo operation manual:
+Below is the simplified tool operation manual:
 
 
 
@@ -125,7 +125,7 @@ Click here --> [Training manual by yourself](training_manual.md)
 -----
 
 ## 简介
-Demo效果看上面👆 Bilibili视频教程：TO DO
+Tool效果看上面👆 Bilibili视频教程：TO DO
 
 这是图像修补方向最新研究成果[Edge-Connect](https://github.com/knazeri/edge-connect)的~~阿姆斯特朗氮气加速魔改~~（优化）版。
 用`Opencv`写了个前端部分，后端是[Edge-Connect](https://github.com/knazeri/edge-connect)，方便当作工具使用。
@@ -144,7 +144,7 @@ Demo效果看上面👆 Bilibili视频教程：TO DO
 pip install -r requirements.txt
 ```
 
-## 运行Demo
+## 运行Tool
 教练！我有个大胆的想法🈲……别急，一步步来：
 
 
@@ -156,29 +156,29 @@ pip install -r requirements.txt
 4. (可选) 检查并编辑 `./model/getchu/config.yml` 配置文件
 5. 使用以下命令运行：
 
-#### 默认Demo:
+#### 默认Tool:
 
 ```bash
-python demo_patch.py --path model/getchu/
+python tool_patch.py --path model/getchu/
 ```
 
-#### 带Edge编辑窗口的Demo:
+#### 带Edge编辑窗口的Tool:
 
 ```bash
-python demo_patch.py --edge --path model/getchu/
+python tool_patch.py --edge --path model/getchu/
 ```
 
 #### 命令行参数帮助
 ```bash
-python demo_patch.py -h
+python tool_patch.py -h
 ```
 
-> PS. 你也能用Demo跑别的任何模型，在这里下载原作更多模型[Edge-Connect](https://github.com/knazeri/edge-connect).
+> PS. 你也能用tool跑别的任何模型，在这里下载原作更多模型[Edge-Connect](https://github.com/knazeri/edge-connect).
 文件组织方式参考上面，其余运行命令都一样。唯一注意的是这个项目的 `config.yml` 比原作的多了几个选项，报错了的话注意修改。
 
-## Demo操作指南
-详细内容请翻看控制台的打印内容，或查看`demo_patch.py`里的`__doc__`      
-简略版Demo使用指南：
+## Tool操作指南
+详细内容请翻看控制台的打印内容，或查看`tool_patch.py`里的`__doc__`      
+简略版Tool使用指南：
 
 按键 | 说明
 -----|------

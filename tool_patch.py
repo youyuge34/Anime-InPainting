@@ -2,11 +2,11 @@
 # author: youyuge34@github
 """
 ===============================================================================
-Interactive Image Patching Demo using Edge-Connect algorithm.
+Interactive Image Patching Tool using Edge-Connect algorithm.
 
 
 USAGE:
-    python demo_patch.py --path <your weights directory path>
+    python tool_patch.py --path <your weights directory path>
                          --edge (optional to open edge window)
 
 
