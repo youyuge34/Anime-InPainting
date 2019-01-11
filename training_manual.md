@@ -3,7 +3,7 @@ Training Manual
 <p align="left">
 		<img src="https://img.shields.io/badge/version-0.2-brightgreen.svg?style=flat-square"
 			 alt="Version">
-		<img src="https://img.shields.io/badge/status-WIP-orange.svg?style=flat-square"
+		<img src="https://img.shields.io/badge/status-release-gold.svg?style=flat-square"
 			 alt="Status">
 		<img src="https://img.shields.io/badge/platform-win | linux-lightgrey.svg?style=flat-square"
 			 alt="Platform">
@@ -23,13 +23,13 @@ As the paper shows, the whole model needs two separate models: `EdgeModel` and `
 But in practice, the whole work actually needs **three training phases** with **the two separate models**
 , which makes results best while the training is confusing.
 
-**IMPORTANT**: The three training phases I define here are called `models` in the original codes , which could be confused with  `EdgeModel` and `InpaintingModel`.
+**IMPORTANT**: The three training phases I define here are called `model` in the original codes , which should not be confused with  `EdgeModel` and `InpaintingModel`.
 
 Phase | Command | Model | Input | Output | Description
 -----|-------|------|------|-------|-------
- 1st | --MODEL 1 | `EdgeModel` | Masked Greyscale Image + Masked Edge + Mask | Full Edge | -
- 2nd | --MODEL 2 | `InpaintingModel` | Masked Image + Full canny Edge from Original full Image+  Mask | Full Image | This phase is added to make the `InpaintingModel` learning the importance of edges
- 3rd | --MODEL 3 | `InpaintingModel` | Masked Image + Full Edge from 1st phase output + Mask | Full Image | -
+ 1st | --model 1 | `EdgeModel` | Masked Greyscale Image + Masked Edge + Mask | Full Edge | Train `EdgeModel` solely
+ 2nd | --model 2 | `InpaintingModel` | Masked Image + Full canny Edge from Original full Image+  Mask | Full Image | Pre-train `InpaintingModel` solely to learn the importance of edges
+ 3rd | --model 3 | `InpaintingModel` | Masked Image + Full Edge from 1st phase output + Mask | Full Image | Actual train `InpaintingModel` with the predicted edges from phase 1
 
 ## Dataset
 1. We need to prepare images dataset and masks dataset both.
@@ -89,6 +89,8 @@ TEST_MASK_FLIST: <your mask dataset path>
 - edit the options in  `config.yml` related to training:
   - Edit the parameter `DEVICE: 1` which is a new option to use GPU or not.
   - Edit the parameter `GPU: [0]` to act a multi-gpu training.
+  - Edit the parameter `INPUT_SIZE` to define the resize of input images
+  - Edit the parameter `BATCH_SIZE` to adapt your GPU RAM
   - Edit the following options as u wish:
   ```
   SAVE_INTERVAL: 1000           # how many iterations to wait before saving model (0: never)
@@ -130,3 +132,118 @@ is really tricky.
 
 <span id="jump_zh">训练指南🇨🇳 </span>
 ------
+
+## 简介（必看）
+整个训练过程并不是端到端（end-to-end）的，根据论文为了得到最佳效果训练被分为了几个阶段。
+有点复杂，所以理解论文并查看代码框架可以让你更好理解。
+
+论文中说整个训练阶段有两个小模型：`EdgeModel` 和 `InpaintingModel`.
+但是根据代码为了得到最佳效果，实际上整个训练分为训练俩小模型和三个训练阶段，训练完还要test和eval，
+所以一切变得都令人困惑。不用担心，这个手册写的可清晰了~
+
+**重点**：这里被我成为阶段`phase`，在原作代码中被成为`model`，因为会和`EdgeModel` 和 `InpaintingModel`混淆，所以我叫做阶段。
+> e.g. 训练命令行中的 `--model` 参数指定的就是我所说的阶段
+
+阶段 | 对应命令行 | 训练的小模型 | 输入 | 输出 | 说明
+-----|-------|------|------|-------|-------
+ 1st | --model 1 | `EdgeModel` | Masked Greyscale Image + Masked Edge + Mask | Full Edge | 单独训练 `EdgeModel`
+ 2nd | --model 2 | `InpaintingModel` | Masked Image + Full canny Edge from Original full Image+  Mask | Full Image | 单独预训练 `InpaintingModel` ，为了让它学到Edge的重要性
+ 3rd | --model 3 | `InpaintingModel` | Masked Image + Full Edge from 1st phase output + Mask | Full Image | 真正的训练 `InpaintingModel`，使用来自阶段1的输出Edge
+
+## 数据集准备
+1. 我们需要同时准备图片和mask数据集：
+- Mask dataset:
+  - 不规则 Mask Dataset ([download link](http://masc.cs.gmu.edu/wiki/uploads/partialconv/mask.zip)) 来自 [Liu et al.](http://masc.cs.gmu.edu/wiki/partialconv) ，推荐使用这个来对付不规则的图片缺陷。
+  - 规则的方块mask不需要数据集，可使用代码生成
+- Image dataset:
+  - Places2, CelebA 和 Paris Street-View 数据集在 [这里](https://github.com/knazeri/edge-connect#datasets).
+  - 来自`getchu.com`的动漫头像数据集在 [ANIME305](https://github.com/ANIME305/Anime-GAN-tensorflow#open-sourced-dataset)
+
+2. 接下来我们要把图片数据分成train/validation/test三个部分（Mask数据集不用）.
+```bash
+python scripts/flist_train_split.py --path <your dataset directory> --output <output path> --train 28 --val 1 --test 1
+```
+这个脚本会默认将30张图片分为28张训练，1张验证，1张测试。注意，分的时候没有shuffle打乱，是根据文件名排序
+一轮一轮均匀分的，因为动漫头像数据集是按年代排序的，我们想让数据集分布均匀。请修改脚本以适配你自己的数据集。
+现在，在`<output path>`目录下应该有三个`.filst`文件了，它们包含了图片的绝对路径。
+
+3. 复制根目录下的`config.yml.example`到你的模型文件夹下. 重命名为`config.yml`并编辑它.
+下面是几个和数据集有关的配置需要修改：
+- 修改 `MASK: 3` (同样推荐使用4).
+- 修改 `TRAIN_FLIST`, `VAL_FLIST` 和 `TEST_FLIST` 变成你的 `.flist` 路径。
+- 修改 `TRAIN_MASK_FLIST`, `VAL_MASK_FLIST` 和 `TEST_MASK_FLIST` 变成你的mask数据集路径（三个相同）.
+
+目前为止我的 `config.yml` 是这样:
+```
+MODE: 1             # 1: train, 2: test, 3: eval
+MODEL: 1            # 1: edge model, 2: inpaint model, 3: edge-inpaint model, 4: joint model
+MASK: 3             # 1: random block, 2: half, 3: external, 4: (external, random block), 5: (external, random block, half)
+EDGE: 1             # 1: canny, 2: external
+NMS: 1              # 0: no non-max-suppression, 1: applies non-max-suppression on the external edges by multiplying by Canny
+SEED: 10            # random seed
+DEVICE: 1           # 0: CPU, 1: GPU
+GPU: [0]            # list of gpu ids
+DEBUG: 1            # turns on debugging mode
+VERBOSE: 0          # turns on verbose mode in the output console
+SKIP_PHASE2: 1      # When training Inpaint model, 2nd and 3rd phases (model 2--->model 3 ) by order are needed. But we can merge 2nd phase into the 3rd one to speed up (however, lower performance).
+
+TRAIN_FLIST: <your path>/train.flist
+VAL_FLIST: <your path>/val.flist
+TEST_FLIST: <your path>/test.flist
+
+TRAIN_EDGE_FLIST: ./
+VAL_EDGE_FLIST: ./
+TEST_EDGE_FLIST: ./
+
+# three options below could be the same
+TRAIN_MASK_FLIST: <your mask dataset path>
+VAL_MASK_FLIST: <your mask dataset path>
+TEST_MASK_FLIST: <your mask dataset path>
+```
+
+## 训练准备
+- 在这里[my page](README.md#run-the-tool) 和这里 [edge-connect](https://github.com/knazeri/edge-connect#2-testing) 下载预训练的模型文件
+- 强烈推荐你在预训练好的文件上进行迁移学习。 要知道，从0开始训练大概要花费10天，两百万次iterations来收敛到最佳（迁移学习大概十分之一时间）。
+- 把你的`config.yml`和四个权重文件`.pth`放到同一个模型目录下
+- 修改`config.yml` 中有关训练的配置:
+  - 修改 `DEVICE: 1` 代表是否使用GPU.
+  - 修改 `GPU: [0]` 如果你有多块GPU进行并行训练的话.
+  - 修改 `INPUT_SIZE` 来定义输入图片的剪裁尺寸
+  - 修改 `BATCH_SIZE` ，以适合你的GPU显存
+  - 修改下面的一些训练时参数：
+  ```
+  SAVE_INTERVAL: 1000           # how many iterations to wait before saving model (0: never)
+  SAMPLE_INTERVAL: 200         # how many iterations to wait before sampling (0: never)
+  SAMPLE_SIZE: 12               # number of images to sample
+  EVAL_INTERVAL: 0              # how many iterations to wait before model evaluation (0: never)
+  LOG_INTERVAL: 1000              # how many iterations to wait before logging training status (0: never)
+  PRINT_INTERVAL: 20            # how many iterations to wait before terminal prints training status (0: never)
+  ```
+
+## 训练！启动！
+训练之前，此项目有两个优化点你必须了解：
+- 为了加速训练，提供了一种跳过阶段2（其实是同时结合阶段2和阶段3）的训练模式，对应配置`SKIP_PHASE2`。不理解的话请回看简介中的阶段说明。
+- 不用担心`checkpoints`的存储问题：
+  - 新的`checkpoints`会被存储在模型文件夹下，名字最后带有<iteration>值。例如：`InpaintingModel_dis_2074000.pth`.
+  - 同时，开始训练的时候会自动加载最新（根据文件名判断）的`.pth`模型文件。
+
+### 快速两行命令训练
+1. 训练阶段1，对应模型 `EdgeModel`.
+```bash
+python train.py --model 1 --path <your model dir path>
+```
+时不时查看sample，自己手动停止。
+
+2. 训练阶段3，对应 `InpaintingModel` ，需要用到上一步中训练好的`EdgeModel`的`.pth`。
+
+ **重点: 我们跳过了训练阶段2（实际上是融合了），在 `config.yml`中`SKIP_PHASE2` 必须配置为 `1` !**
+ ```bash
+ python train.py --model 3 --path <your model dir path>
+ ```
+时不时查看sample，自己手动停止。 训练完毕啦~
+
+
+### (可选) 高级训练手段
+- 配置 `SKIP_PHASE2` 为 `0` 来训练阶段 2 (使用 `--model 2`),阶段2和3能够以任何顺序接替训练。例如： 训练1天阶段2，训练1天阶段3，接着训练阶段2…… `checkpoints`文件不需要你担心。
+- 中断训练后调整 `SIGMA` 配置, 然后继续训练。（tricky）
+

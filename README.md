@@ -45,7 +45,7 @@ Compared with the original work, this project has such <span id="improve">improv
 
 **You can do the amazing Anime inpainting conveniently here.**
 
-**And detailed training tutorial is introduced below.**
+**And detailed [training manual](#training_manual.md) is released. You may train your own dataset smoothly now.**
 
 ## <span id='pre'>Prerequisites</span>
 - Python 3
@@ -124,16 +124,18 @@ Click here --> [Training manual by yourself](training_manual.md)
 -----
 
 ## 简介
-Tool效果看上面👆 Bilibili视频教程：TO DO
+Tool效果看上面👆 | Bilibili视频教程：TO DO
 
 这是图像修补方向最新研究成果[Edge-Connect](https://github.com/knazeri/edge-connect)的~~阿姆斯特朗氮气加速魔改~~（优化）版。
 用`Opencv`写了个前端部分，后端是[Edge-Connect](https://github.com/knazeri/edge-connect)，方便当作工具使用。
 此工具可以用来自动图像修补，去马赛克……同样优化了模型训练的过程。具体优化内容请看[英文版Improvements](#improve)。
 
+更新：[训练手册](training_manual.md#jump_zh)已经填坑完发布了~你可以照着指南训练自己数据集了~
+
 ## 基础环境
 - Python 3
 - PyTorch `1.0` (`0.4` 会报错)
-- NVIDIA GPU + CUDA cuDNN （当前版本已可选cpu，修改`config.yml`中的`DEVICE`）
+- NVIDIA GPU + CUDA cuDNN （当前版本已可选cpu，请修改`config.yml`中的`DEVICE`）
 
 ## 第三方库安装
 - Clone this repo
