@@ -45,7 +45,7 @@ Compared with the original work, this project has such <span id="improve">improv
 
 **You can do the amazing Anime inpainting conveniently here.**
 
-**And detailed [training manual](#training_manual.md) is released. You may train your own dataset smoothly now.**
+**And detailed [training manual](training_manual.md) is released. You may train your own dataset smoothly now.**
 
 ## <span id='pre'>Prerequisites</span>
 - Python 3
@@ -130,7 +130,7 @@ Tool效果看上面👆 | Bilibili视频教程：TO DO
 用`Opencv`写了个前端部分，后端是[Edge-Connect](https://github.com/knazeri/edge-connect)，方便当作工具使用。
 此工具可以用来自动图像修补，去马赛克……同样优化了模型训练的过程。具体优化内容请看[英文版Improvements](#improve)。
 
-更新：[训练手册](training_manual.md#jump_zh)已经填坑完发布了~你可以照着指南训练自己数据集了~
+更新：[训练手册](training_manual.md#jump_zh)已经填坑完发布了！你可以照着指南训练自己数据集了~
 
 ## 基础环境
 - Python 3
