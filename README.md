@@ -16,7 +16,7 @@ Anime-InPainting: An application Tool based on [Edge-Connect](https://github.com
 English | [中文版介绍](#jump_zh)
 
 <p align="center">
-<img src="files/banner.png">
+<img src="files/banner.png" width="720" height="240">
 </p>
 
 ## Tool show time 🏳️‍🌈
