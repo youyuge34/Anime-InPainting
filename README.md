@@ -15,6 +15,14 @@ Anime-InPainting: An application Tool based on [Edge-Connect](https://github.com
 
 English | [中文版介绍](#jump_zh)
 
+<hr>
+
+### Important
+**2019.3.27 Update:**     
+Our **latest** drawing method [PI-REC](https://github.com/youyuge34/PI-REC) is more powerful.      
+ Take a look on it, and I'm sure it won't disappoint you.
+<hr>
+
 <p align="center">
 <img src="files/banner.png" width="720" height="240">
 </p>
@@ -126,6 +134,15 @@ Click here --> [Training manual by yourself](training_manual.md)
 
 <span id="jump_zh">中文版介绍🇨🇳 </span>
 -----
+
+<hr>
+
+### 重要
+**2019.3.27 更新:**     
+我们的最新模型 [PI-REC](https://github.com/youyuge34/PI-REC) 更强大.            
+如果你想用最新的AI绘画黑科技，而非仅仅是修补图像，请点击上面的链接👆
+<hr>
+
 
 ## 简介
 Tool效果看上面👆 | Bilibili视频教程：TO DO
